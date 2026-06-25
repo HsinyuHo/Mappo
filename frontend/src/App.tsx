@@ -9,6 +9,7 @@ import ProfileScreen from './components/ProfileScreen';
 import AuthScreen from './components/AuthScreen';
 import { Compass, MessageSquare, User, LogOut } from 'lucide-react';
 import { apiClient } from './api/client';
+import JourneyIntro from './components/JourneyIntro';
 
 type Tab = 'explore' | 'activity' | 'profile';
 
@@ -17,6 +18,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [userProfile, setUserProfile] = useState<UserProfile>(initialUserProfile);
+  const [showJourneyIntro, setShowJourneyIntro] = useState<boolean>(false);
 
   // 貼文與留言狀態
   const [posts, setPosts] = useState<Post[]>([]);
@@ -37,7 +39,7 @@ export default function App() {
           setUserProfile(profile);
           setIsLoggedIn(true);
         }
-        
+
         // 載入貼文與留言
         const allPosts = await apiClient.posts.getAll();
         const allComments = await apiClient.comments.getAll();
@@ -116,11 +118,12 @@ export default function App() {
     }
   };
 
-  const handleLogin = (token: string, profile: UserProfile) => {
+  const handleLogin = (token: string, profile: UserProfile, shouldShowJourneyIntro = false) => {
     localStorage.setItem('mappo_token', token);
     setUserProfile(profile);
     setIsLoggedIn(true);
     setActiveTab('explore');
+    setShowJourneyIntro(shouldShowJourneyIntro);
   };
 
   const handleLogout = () => {
@@ -142,13 +145,20 @@ export default function App() {
 
   return (
     <div className="font-sans min-h-screen flex flex-col bg-[#fbf9f1] text-[#1b1c17] select-none selection:bg-[#a5c9ff] relative overflow-hidden">
-      
+
       {/* If the traveler is not logged in, render authentication screens */}
       {!isLoggedIn ? (
         <AuthScreen onLoginSuccess={handleLogin} />
+      ) : showJourneyIntro ? (
+        <JourneyIntro
+          onFinish={() => {
+            setShowJourneyIntro(false);
+            setActiveTab('explore');
+          }}
+        />
       ) : (
         <div className="flex flex-col h-screen overflow-hidden">
-          
+
           {/* Top Mappo Logo Brand Bar (Visible except when viewing details like scrapbook back buttons are overlayed) */}
           {!(activeTab === 'explore' && selectedRegion) && (
             <header className="bg-[#fbf9f1] border-b-2 border-[#e4e3db] docked sticky top-0 flex justify-between items-center px-5 py-2.5 w-full z-40 select-none shadow-xs">
@@ -160,8 +170,8 @@ export default function App() {
               >
                 <LogOut size={16} />
               </button>
-              
-              <div 
+
+              <div
                 onClick={() => {
                   setSelectedRegion(null);
                   setViewingComments(false);
@@ -171,14 +181,14 @@ export default function App() {
               >
                 Mappo
               </div>
-              
+
               <div className="w-8"></div>
             </header>
           )}
 
           {/* Core App View switcher */}
           <div className="flex-1 overflow-hidden relative">
-            
+
             {/* EXPLORE TAB: Interactive Map or Selected Region Scrapbook */}
             {activeTab === 'explore' && (
               <div className="h-full w-full overflow-y-auto no-scrollbar">
@@ -258,18 +268,17 @@ export default function App() {
           {/* Hidden when viewing deep sub-pages like comments board to ensure smooth keyboard layout spacing */}
           {!viewingComments && !(activeTab === 'explore' && selectedRegion) && (
             <nav className="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f0eee6] border-t-4 border-brand-primary-container shadow-md">
-              
+
               {/* Explore Tab button */}
               <button
                 onClick={() => {
                   setSelectedRegion(null);
                   setActiveTab('explore');
                 }}
-                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${
-                  activeTab === 'explore'
-                    ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
-                    : 'text-gray-500 hover:bg-brand-surface-highest/40'
-                }`}
+                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${activeTab === 'explore'
+                  ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
+                  : 'text-gray-500 hover:bg-brand-surface-highest/40'
+                  }`}
               >
                 <Compass size={18} fill={activeTab === 'explore' ? 'currentColor' : 'none'} />
                 <span className="font-display text-[10px] mt-1">探索</span>
@@ -281,11 +290,10 @@ export default function App() {
                   setViewingComments(false);
                   setActiveTab('activity');
                 }}
-                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${
-                  activeTab === 'activity'
-                    ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
-                    : 'text-gray-500 hover:bg-brand-surface-highest/40'
-                }`}
+                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${activeTab === 'activity'
+                  ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
+                  : 'text-gray-500 hover:bg-brand-surface-highest/40'
+                  }`}
               >
                 <MessageSquare size={18} fill={activeTab === 'activity' ? 'currentColor' : 'none'} />
                 <span className="font-display text-[10px] mt-1">動態</span>
@@ -296,11 +304,10 @@ export default function App() {
                 onClick={() => {
                   setActiveTab('profile');
                 }}
-                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${
-                  activeTab === 'profile'
-                    ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
-                    : 'text-gray-500 hover:bg-brand-surface-highest/40'
-                }`}
+                className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 min-w-[72px] ${activeTab === 'profile'
+                  ? 'bg-brand-primary-container text-brand-on-primary-container translate-y-[-4px] shadow-[0_4px_0_0_rgba(59,96,143,1)] font-extrabold'
+                  : 'text-gray-500 hover:bg-brand-surface-highest/40'
+                  }`}
               >
                 <User size={18} fill={activeTab === 'profile' ? 'currentColor' : 'none'} />
                 <span className="font-display text-[10px] mt-1">個人資料</span>

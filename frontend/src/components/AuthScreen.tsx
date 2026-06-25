@@ -4,7 +4,7 @@ import { UserProfile } from '../types';
 import { apiClient } from '../api/client';
 
 interface AuthScreenProps {
-  onLoginSuccess: (token: string, user: UserProfile) => void;
+  onLoginSuccess: (token: string, user: UserProfile, shouldShowJourneyIntro?: boolean) => void;
 }
 
 type AuthView = 'welcome' | 'login' | 'register';
@@ -87,7 +87,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
 
   return (
     <div className="page-fade-in flex flex-col items-center justify-center min-h-screen bg-[#fbf9f1] px-4 py-8 relative">
-      
+
       {/* Decorative Floating stroke background details */}
       <div className="absolute inset-0 pointer-events-none opacity-20 select-none overflow-hidden">
         <div className="absolute top-[8%] left-[5%] w-32 h-32 text-brand-primary">
@@ -112,12 +112,12 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
 
           {/* Central Illustrations collage */}
           <div className="relative w-full aspect-square max-w-[260px] flex items-center justify-center my-2">
-            
+
             {/* Background Cute neighborhood map sticker */}
             <div className="absolute w-48 h-48 bg-white p-2 rounded-lg shadow-sm border border-brand-surface-highest rotate-[-1.5deg] flex flex-col items-center justify-center">
-              <div 
+              <div
                 className="w-full h-full rounded-md bg-brand-secondary-container bg-cover bg-center"
-                style={{ 
+                style={{
                   backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuDNL93yEIB58ZNOppbQPu5GJXt5WjZUI2Sk6qiGxzu5gyCBwZV78yN5FOw1gEvB7_PJ6uenR3hjEQf5zhuX7FJ5WaoiKfOvLBef6fjA0NQrlGenuGVo78pqY-T-GPXmT0k4cBfoDX_a8Ao-x0r37haJj01uKljBbkXIp2TP8gzp6Vcf6_NqHjKMOrOB0YVqdCcE0ZcIQWFs-6oqPWD28ykPiJsMEy0qXeibmiIH5NPPai48GunK5cEKWdoU2j5ZtXdmsnqLhvmgzg')`
                 }}
               />
@@ -434,7 +434,7 @@ export default function AuthScreen({ onLoginSuccess }: AuthScreenProps) {
               onClick={() => {
                 setShowSuccessPopup(false);
                 if (registeredUser) {
-                  onLoginSuccess(registeredToken, registeredUser);
+                  onLoginSuccess(registeredToken, registeredUser, true);
                 }
               }}
               className="bubble-btn-primary w-full py-2.5 rounded-lg font-display font-bold text-xs text-brand-on-primary-container shadow-xs"
