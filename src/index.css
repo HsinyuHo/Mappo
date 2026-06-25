@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Be Vietnam Pro", sans-serif;
+
+  --color-surface-base: #fbf9f1;
+  --color-surface-low: #f5f4ec;
+  --color-surface-container: #f0eee6;
+  --color-surface-high: #eae8e0;
+  --color-surface-highest: #e4e3db;
+  --color-brand-primary: #3b608f;
+  --color-brand-primary-container: #a5c9ff;
+  --color-brand-on-primary-container: #2e5483;
+  --color-brand-secondary: #6f5092;
+  --color-brand-secondary-container: #d9b5ff;
+  --color-brand-on-secondary-container: #614283;
+  --color-brand-tertiary: #7c5637;
+  --color-brand-tertiary-container: #efbd97;
+  --color-brand-on-tertiary-container: #6f4b2d;
+}
+
+/* Custom Journal Background Layout */
+.journal-dot-grid {
+  background-color: #fbf9f1;
+  background-image: radial-gradient(#e4e3db 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+/* 3D Bubble Button Shadows (The squishy, tactile button effect) */
+.bubble-btn-primary {
+  position: relative;
+  background-color: #a5c9ff;
+  color: #2e5483;
+  box-shadow: 0 4px 0 0 #3b608f;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-btn-primary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #3b608f;
+}
+
+.bubble-btn-secondary {
+  position: relative;
+  background-color: #d9b5ff;
+  color: #614283;
+  box-shadow: 0 4px 0 0 #6f5092;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-btn-secondary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #6f5092;
+}
+
+.bubble-btn-tertiary {
+  position: relative;
+  background-color: #efbd97;
+  color: #2f1500;
+  box-shadow: 0 4px 0 0 #7c5637;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-btn-tertiary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #7c5637;
+}
+
+/* 3D Circular Floating Action Button Shadows */
+.bubble-fab-primary {
+  position: relative;
+  background-color: #3b608f;
+  color: #ffffff;
+  box-shadow: 0 4px 0 0 #204876;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-fab-primary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #204876;
+}
+
+.bubble-fab-secondary {
+  position: relative;
+  background-color: #6f5092;
+  color: #ffffff;
+  box-shadow: 0 4px 0 0 #29074a;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-fab-secondary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #29074a;
+}
+
+.bubble-fab-neutral {
+  position: relative;
+  background-color: #f0eee6;
+  color: #3b608f;
+  box-shadow: 0 4px 0 0 #c3c6d0;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.bubble-fab-neutral:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 #c3c6d0;
+}
+
+/* Washi Tape Effect */
+.washi-tape-sticker {
+  background: rgba(165, 201, 255, 0.45);
+  backdrop-filter: blur(1.5px);
+  clip-path: polygon(0% 0%, 100% 1.5%, 98.5% 100%, 1.5% 98%);
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Doodle Borders */
+.doodle-contour {
+  border: 2px solid #737780;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+.doodle-sticker-border {
+  border: 4px solid #ffffff;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+}
+
+/* Lined Paper Lines */
+.lined-notebook {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 27px,
+    #e4e3db 27px,
+    #e4e3db 28px
+  );
+  background-size: 100% 28px;
+}
+
+/* Floaters */
+@keyframes floatUpAndDown {
+  0%, 100% {
+    transform: translateY(0px) rotate(var(--tilt, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(calc(var(--tilt, 0deg) + 1.2deg));
+  }
+}
+
+.animate-scrapbook-float {
+  animation: floatUpAndDown 4.5s ease-in-out infinite;
+}
+
+/* Hide scrollbars but keep functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Page transitions */
+.page-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

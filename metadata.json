@@ -1,0 +1,6 @@
+{
+  "name": "Mappo",
+  "description": "A beautiful Digital Travel Techo & Scrapbook app to explore regions, log precious memories, and share travel journals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
