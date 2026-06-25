@@ -1,6 +1,7 @@
 import { UserProfile, Post, Comment } from '../types';
 
-const BASE_URL = 'http://192.168.31.230:8000/api';
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 /**
  * 取得本地端儲存的 JWT Token
